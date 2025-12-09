@@ -1,73 +1,45 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+int main(int argc, char **argv) {
+    srand(time(NULL));
+    
+    printf("Password: ");
+    unsigned int input;
+    scanf("%u", &input);
+    
+    // VULNERABLE: Check if input difference from magic number is in valid range
+    test(input, 0x1337d00d);  // 0x1337d00d = 322424845
+    return 0;
+}
 
-void clear_stdin() {
-    int c;
-    while (1) {
-        c = getchar();
-        if (c == '\n' || c == EOF)
-            break;
+int test(int a, int b) {
+    int diff = b - a;  // Calculate difference
+    
+    switch (diff) {
+        // Only accept differences 1-9, 16-21
+        case 1: case 2: case 3: case 4: case 5:
+        case 6: case 7: case 8: case 9:
+        case 16: case 17: case 18: case 19:
+        case 20: case 21:
+            return decrypt(diff);  // Use difference as decryption key!
     }
+    
+    // If difference not in valid range, use random key
+    return decrypt(rand());
 }
 
-unsigned int get_unum() {
-    unsigned int result = 0;
-    fflush(stdout);
-    scanf("%u", &result);
-    clear_stdin();
-    return result;
-}
-
-// The encrypted string inside decrypt():
-// "Q}|u`sfg~sf{}|a3"  (17 chars)
 int decrypt(int key) {
     char s[17];
-    strncpy(s, "Q}|u`sfg~sf{}|a3", 17);
-
-    // XOR-decrypt string
+    strncpy(s, "Q}|u`sfg~sf{}|a3", 17);  // Encrypted password
+    
+    // XOR decrypt each character
     for (int i = 0; i < 16; i++)
         s[i] ^= key;
-
-    // Compare with correct phrase
+    
+    // Check if decryption produces the correct password
     if (strcmp(s, "Congratulations!") == 0) {
-        system("/bin/sh");
+        system("/bin/sh");  // Shell access!
         return 0;
     } else {
         puts("\nInvalid Password");
         return -1;
     }
-}
-
-int test(int a, int b) {
-    int diff = b - a;
-
-    switch (diff) {
-        case 1: case 2: case 3: case 4:
-        case 5: case 6: case 7: case 8:
-        case 9: case 16: case 17: case 18:
-        case 19: case 20: case 21:
-            return decrypt(diff);
-    }
-
-    // otherwise random key
-    return decrypt(rand());
-}
-
-int main(int argc, char **argv) {
-    srand(time(NULL));
-
-    puts("***********************************");
-    puts("*\t\tlevel03\t\t**");
-    puts("***********************************");
-    printf("Password: ");
-
-    unsigned int input;
-    scanf("%u", &input);
-
-    // Compare user input with 0x1337d00d
-    test(input, 0x1337d00d);
-
-    return 0;
 }
