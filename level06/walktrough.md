@@ -1,4 +1,6 @@
-# Level06 — Vulnerability Analysis & Exploitation Guide
+<h1 align="center"> LEVEL 6 </h1>
+
+## 🔍 Analysis of Decompiled [level6](./pseudo.c)
 
 **Purpose:** Complete, step‑by‑step explanation of the vulnerability in the provided `auth()` / `main()` code, how it can be exploited, and a reproducible exploitation procedure. This file focuses on *the logic vulnerability* (not a memory corruption bug) and how to compute a valid serial to get a shell.
 

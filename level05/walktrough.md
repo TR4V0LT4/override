@@ -1,6 +1,8 @@
-# Level05 — Step-by-Step Exploitation Explanation
+<h1 align="center"> LEVEL 5 </h1>
 
-This write-up explains **exactly and only** what was shown, step by step, with a **small amount of theory**, and **adds only one missing point**: how the `exit@GOT` address is obtained.
+## 🔍 Analysis of Decompiled [level5](./pseudo.c)
+
+This write-up explainshow the `exit@GOT` address is obtained.
 
 ---
 

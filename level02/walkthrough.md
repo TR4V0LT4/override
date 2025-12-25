@@ -2,7 +2,7 @@
 
 ## 🔍 Analysis of Decompiled [level2](./pseudo.c)
 
-This level exploits a Format String Vulnerability in a password authentication system. The program reads a password from a file and compares it with user input.
+This level exploits a **Format String Vulnerability** in a password authentication system. The program reads a password from a file and compares it with user input.
 
 ## The Vulnerability
 
@@ -103,8 +103,4 @@ The leaked hex values (positions 22-26) are the **encrypted password**!
 0x354a35686e475873 -> sXGnh5J5
 0x48336750664b394d -> M9KfPg3H
 Final value: Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
-```
-This the LEVEL3 flag:
-```bash
-Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
 ```

