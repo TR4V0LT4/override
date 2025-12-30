@@ -2,11 +2,11 @@
 
 ## 🔍 Analysis of Decompiled [level2](./pseudo.c)
 
-This level exploits a **Format String Vulnerability** in a password authentication system. The program reads a password from a file and compares it with user input.
+When authentication fails, the program prints the username. If the username contains format string specifiers, it can be used to read stack memory!
 
 ## The Vulnerability
 
-When authentication fails, the program prints the username. If the username contains format string specifiers, it can be used to read stack memory!
+This level exploits a **Format String Vulnerability** in a password authentication system. The program reads a password from a file and compares it with user input.
 
 ### What is a Format String Vulnerability?
 
@@ -94,7 +94,7 @@ The leaked hex values (positions 22-26) are the **encrypted password**!
 25 - 0x354a35686e475873 does not have access!
 26 - 0x48336750664b394d does not have access!
 ```
-### Decode the Leaked Values [hex2ascii](./hex2ascii.c)
+### Decode the Leaked Values with [hex2ascii](./hex2ascii.py)
 **Result:** 
 ```
 0x756e505234376848 -> Hh74RPnu

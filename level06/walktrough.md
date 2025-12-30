@@ -1,19 +1,16 @@
 <h1 align="center"> LEVEL 6 </h1>
 
 ## 🔍 Analysis of Decompiled [level6](./pseudo.c)
-
-**Purpose:** Complete, step‑by‑step explanation of the vulnerability in the provided `auth()` / `main()` code, how it can be exploited, and a reproducible exploitation procedure. This file focuses on *the logic vulnerability* (not a memory corruption bug) and how to compute a valid serial to get a shell.
-
----
+The program implements a **custom authentication hash**: it computes a numeric value from the supplied login string and compares it to the supplied serial.
 
 ## 1. TL;DR
 
-* The program implements a **custom authentication hash**: it computes a numeric value from the supplied login string and compares it to the supplied serial.
+**The vulnerability** exists in a function that reads user input into a fixed-size buffer without bounds checking:
+
 * There is **no buffer overflow** or direct memory corruption in `auth()` — the flaw is *design/logic*: the serial is fully determined by the login so it can be generated offline.
 * The program uses `ptrace(PTRACE_TRACEME)` to detect debuggers and rejects traced runs; run the program normally (or bypass the check) during exploitation.
 * Exploitation is trivial: **reimplement the algorithm** (script provided) and compute the correct serial, then supply the login + computed serial to get `system("/bin/sh")`.
 
----
 
 ## 2. Relevant code (decompiled highlights)
 
@@ -40,9 +37,13 @@ if (param_2 == local_14) return 0;     // success -> 0, caller runs system("/bin
 else return 1;
 ```
 
-In `main()`: reads login via `fgets`, reads serial (scanf), calls `auth(login, serial)`; if return == 0 => shell.
+In `main()`: 
 
----
+- reads login via `fgets`
+- reads serial (scanf)
+- calls `auth(login, serial)`
+- if return == 0 => shell.
+
 
 ## 3. Detailed vulnerability explanation (line‑by‑line)
 
@@ -79,9 +80,7 @@ In `main()`: reads login via `fgets`, reads serial (scanf), calls `auth(login, s
 
    * If the function returns 0, `main()` runs `system("/bin/sh")`, providing a shell. Therefore the only barrier is computing the correct serial.
 
----
-
-## Exploitation strategy (high level)
+## Exploitation strategy 
 
 1. **Choose a printable login of length >= 6.**
 2. **Reimplement the hash in a script** (Python in our case) exactly as in the binary.
@@ -91,31 +90,10 @@ In `main()`: reads login via `fgets`, reads serial (scanf), calls `auth(login, s
 
 This is not memory exploit - it is logic bypass via reverse engineering.
 
----
 
-## Reproducible exploit steps (commands)
+##  Exploit steps 
 
-1. Save the Python serial generator (example below) as `serial_gen.py` and make executable.
-
-```python
-#!/usr/bin/env python3
-
-def generate_serial(login: str) -> int:
-    login = login.split('\n')[0]          # strip newline
-    if len(login) < 6:
-        raise ValueError("Login must be at least 6 characters")
-    serial = (ord(login[3]) ^ 0x1337) + 0x5eeded
-    for c in login:
-        if ord(c) < 0x20:
-            raise ValueError("Invalid character in login")
-        serial += (ord(c) ^ serial) % 0x539
-    return serial
-
-if __name__ == '__main__':
-    import sys
-    login = input('Login: ')
-    print(generate_serial(login))
-```
+1. Save the Python serial generator (example below) as [script](script.py) and make executable.
 
 2. Generate a serial for a chosen login:
 
@@ -134,7 +112,4 @@ $ ./level06
 Authenticated!
 $ whoami
 level07
-$ cd ../level07
-$ cat .pass
-GbcPDRgsFK77LNnnuh7QyFYA2942Gp8yKj9KrWD8
 ```
