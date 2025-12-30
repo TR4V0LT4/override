@@ -48,7 +48,7 @@ This is why the NOP sled is useful: the exact offset does not need to be precise
 
 
 ## 3. Obtaining the exit@GOT address (added explanation)
-```
+```bash
 objdump -R level05
 
 level05:     file format elf32-i386

@@ -1,7 +1,7 @@
 <h1 align="center"> LEVEL 4 </h1>
 
 ## 🔍 Analysis of Decompiled [level4]
-```
+```bash
 (gdb) info proc map
 process 1869
 Mapped address spaces:
