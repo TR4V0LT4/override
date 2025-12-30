@@ -6,7 +6,7 @@
 ![Security](https://img.shields.io/badge/Security-ELF%2Fi386-blue?style=for-the-badge)
 ![Difficulty](https://img.shields.io/badge/Difficulty-★★★★☆-yellow?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-Linux-blueviolet?style=for-the-badge)
-![Levels](https://img.shields.io/badge/Levels-10-informational?style=for-the-badge)
+![Levels](https://img.shields.io/badge/-10-informational?style=for-the-badge)
 
 
 
