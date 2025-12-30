@@ -3,7 +3,8 @@
 ![Binary Exploitation](https://img.shields.io/badge/Binary_Exploitation-Advanced-red?style=for-the-badge)
 ![Security](https://img.shields.io/badge/Security-ELF%2Fi386-blue?style=for-the-badge)
 ![Difficulty](https://img.shields.io/badge/Difficulty-★★★★☆-yellow?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Done-brightgreen?style=for-the-badge)
+![Levels](https://img.shields.io/badge/Levels-10-informational?style=for-the-badge)
+
 
 <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTY2aDlmZW9mbThydjloZmhzaG9pd2RuOWd4OWNxanBlZGltMnRlNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Q2W4hziDOyzu0/giphy.gif" alt="bob" title="gif" width="900" />
 
@@ -12,7 +13,7 @@
  exploitation techniques, and reverse engineering  -->
 
 **Override** is an advanced binary exploitation project designed to deepen your understanding of:
-- **Reverse engineering (i386/x86)** compiled binaries to understand their behavior
+- **Reverse engineering** compiled binaries to understand their behavior
 - **ELF Binary Analysis** - Understanding executable formats and memory layouts
 - **Vulnerability Identification** - Recognizing common programming flaws in compiled binaries
 - **Exploitation Techniques** - Developing and executing attacks against protected binaries
