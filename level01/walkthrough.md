@@ -58,7 +58,7 @@ Mapped address spaces:
    - Password: 92 bytes of payload
 
 2. **Buffer Overflow:**
-   - fgets writes 92 bytes into 100-byte buffer
+   - fgets writes 92 bytes into 64-byte buffer
    - **Overwrites the return address on the stack**
    - Return address becomes 0xf7e6aed0
 
