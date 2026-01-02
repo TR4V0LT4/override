@@ -38,10 +38,10 @@ Mapped address spaces:
 0xf7e6aed0 <system>:	0x891cec83
 
 ```
-
+calling [hex2little](hex2little.py):
 ```bash
-0xf7e6aed0 - system()
-0xf7f897ec - "/bin/sh"
+system  -  0xf7e6aed0  -->  \xd0\xae\xe6\xf7
+/bin/sh -  0xf7f897ec  -->  \xec\x97\xf8\xf7
 ```
 
 **Breakdown:**
@@ -60,12 +60,7 @@ Mapped address spaces:
 2. **Buffer Overflow:**
    - fgets writes 92 bytes into 64-byte buffer
    - **Overwrites the return address on the stack**
-   - Return address becomes 0xf7e6aed0
-
-3. **Execution Hijack:**
-   - When verify_user_pass() returns
-   - Jumps to 0xf7e6aed0 instead of returning normally
-   - This address contains gadget code that spawns a shell
+   - Return address **0xffffd71c** becomes **0xf7e6aed0**
 
 ## Final Payload
 

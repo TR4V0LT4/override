@@ -7,9 +7,6 @@ int main(void)
 
     pid = fork();
 
-    // Zero buffer
-    memset(buffer, 0, sizeof(buffer));
-
     if (pid == 0) {
         // ---- CHILD ----
         prctl(PR_SET_PDEATHSIG, SIGHUP);

