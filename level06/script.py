@@ -9,13 +9,13 @@ def generate_serial(login: str) -> int:
         raise ValueError("Login must be at least 6 characters")
 
     # Step 3: initial value
-    serial = (ord(login[3]) ^ 0x1337) + 0x5eeded
+    serial = (ord(login[3]) ^ 4919) + 6221293
 
     # Step 4: main hash loop
     for c in login:
-        if ord(c) < 0x20:
+        if ord(c) < 32:
             raise ValueError("Invalid character in login")
-        serial += (ord(c) ^ serial) % 0x539
+        serial += (ord(c) ^ serial) % 1337
 
     return serial
 

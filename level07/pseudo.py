@@ -1,59 +1,65 @@
-store_number(data):
-    print "Number: "
+import sys
+import os
+
+def store_number(data):
+    print("Number: ")
     number = read_unsigned_int()
 
-    print "Index: "
+    print("Index: ")
     index = read_unsigned_int()
 
-    // Weak protection
-    if index % 3 == 0 OR highest_byte(number) == 0xb7:
-        print "This index is reserved"
+    # Weak protection
+    if index % 3 == 0 or highest_byte(number) == 0xb7:
+        print("This index is reserved")
         return 1
 
-    // VULNERABILITY: NO BOUNDS CHECK
+    # VULNERABILITY: NO BOUNDS CHECK
     data[index] = number
     return 0
 
 
-read_number(data):
-    print "Index: "
+def read_number(data):
+    print("Index: ")
     index = read_unsigned_int()
-    print data[index]
+    print(data[index])
+    return 0
 
-    
-main(argc, argv, envp):
-    data[100] = {0}
-    command[20] = {0}
 
-    // Wipe argv and envp from memory (anti-exploit noise)
-    for each arg in argv:
-        memset(arg, 0, strlen(arg))
-    for each env in envp:
-        memset(env, 0, strlen(env))
+def main():
+    data = [0] * 100
+    # command buffer is simulated by using a string and truncating to 20 chars
+    command = ""
 
-    print welcome banner
+    # Wipe argv and envp from memory (anti-exploit noise)
+    for i in range(len(sys.argv)):
+        sys.argv[i] = ""
+    for k in list(os.environ.keys()):
+        os.environ[k] = ""
 
-    loop forever:
-        print "Input command: "
-        fgets(command, 20, stdin)
-        command = strip_newline(command)
+    print("Welcome to the number store")
+
+    while True:
+        print("Input command: ", end="")
+        command = sys.stdin.readline(20)
+        if not command:
+            break
+        command = command.rstrip("\n")[:20]
+
+        result = 1
 
         if command == "store":
             result = store_number(data)
-
-        else if command == "read":
+        elif command == "read":
             result = read_number(data)
-
-        else if command == "quit":
-            exit cleanly
-
+        elif command == "quit":
+            break
         else:
             result = 1
 
         if result == 0:
-            print "Completed command successfully"
+            print("Completed command successfully")
         else:
-            print "Failed to do command"
+            print("Failed to do command")
 
-        clear(command)
+        command = ""
 

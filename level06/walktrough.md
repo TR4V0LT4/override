@@ -17,12 +17,14 @@ The program implements a **custom authentication hash**: it computes a numeric v
 ```c
 // auth(char *param_1, uint param_2)
 size_t sVar1 = strcspn(param_1, "\n");
-param_1[sVar1] = '\0';                 // strip trailing newline
+param_1[sVar1] = '\0';                 
 sVar1 = strnlen(param_1, 0x20);
-if ((int)sVar1 < 6) return 1;          // require length >= 6
+// require length >= 6
+if ((int)sVar1 < 6) return 1;          
 
 long lVar3 = ptrace(PTRACE_TRACEME);
-if (lVar3 == -1) {                     // anti-debug: if traced -> fail
+// anti-debug: if traced -> fail
+if (lVar3 == -1) {                     
   puts("!! TAMPERING DETECTED !!");
   return 1;
 }
