@@ -47,12 +47,7 @@ char encrypted = 'Q';         // 0x51
 char plaintext = 'C';         // 0x43
 char key = 'Q' ^ 'C';         // 0x51 ^ 0x43 = 18
 ```
-
-**Verify:**
-```python
-# XOR properties: a ^ b = c, then c ^ b = a
-'Q' ^ 18 = 0x51 ^ 18 = 0x43 = 'C'  ✓
-```
+run [verify.py](verify.py) to verify.
 
 ### Step 2: Find the Valid Input Number
 
